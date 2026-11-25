@@ -1,0 +1,10 @@
+# Settings pushed to the hosted project with `npx supabase config push`.
+# Only the properties declared here are changed; everything else keeps its dashboard value.
+project_id = "javxrnhbhmyrqkwsujpp"
+
+[auth]
+# Address of the published app (Cloudflare Pages).
+site_url = "https://house-rental-bqr.pages.dev"
+additional_redirect_urls = ["http://localhost:5173"]
+# Accounts are created only by an administrator in the Supabase dashboard.
+enable_signup = false

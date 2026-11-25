@@ -113,12 +113,15 @@ The output is plain static files, so any static host with an SPA fallback works.
 
 ## Limitations and what is not verified
 
-- **Nothing has been run against a hosted Supabase project or deployed to Cloudflare Pages.** The
-  migrations, RLS and RPCs were executed and tested on a real PostgreSQL 17 with a shim that
-  reproduces Supabase's `auth` schema, API roles and default privileges
-  (`tests/db/supabase-shim.sql`), and the app was tested end-to-end through the local backend.
-  The first real deployment should repeat the smoke path: sign in, create a hold, confirm a
-  booking, record a payment.
+- **Deployed on 25 November 2026** to a hosted Supabase project (migrations via
+  `npx supabase db push`, login settings via `supabase/config.toml` and `npx supabase config push`)
+  and to Cloudflare Pages (`npm run build`, then
+  `npx wrangler pages deploy dist --project-name house-rental --branch main`). Checked live: the
+  site and its SPA routes load, anonymous API access is refused, public sign-up is closed.
+- **The automated tests do not run against the hosted project.** They run on a real PostgreSQL 17
+  with a shim that reproduces Supabase's `auth` schema, API roles and default privileges
+  (`tests/db/supabase-shim.sql`), and end-to-end through the local backend. The signed-in smoke
+  path on the live site (create a hold, confirm a booking, record a payment) is a manual check.
 - No Supabase Realtime: other people's changes appear on refocus, after any action, when a hold
   deadline passes, or within a minute.
 - The in-app invitation does not send e-mail and does not create the user account.

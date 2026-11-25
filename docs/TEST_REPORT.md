@@ -14,11 +14,14 @@ Microsoft Edge via Playwright 1.65.
 
 ## What was *not* run
 
-- No hosted Supabase project was available: the migrations were not applied to Supabase, and
-  PostgREST / GoTrue themselves were not exercised. Database behaviour was tested on plain
-  PostgreSQL with `tests/db/supabase-shim.sql`; the HTTP layer in end-to-end tests is
+- The automated suites above did not run against hosted Supabase. Database behaviour was tested
+  on plain PostgreSQL with `tests/db/supabase-shim.sql`; the HTTP layer in end-to-end tests is
   `scripts/local-backend.mjs`.
-- No Cloudflare Pages deployment.
+- Deployment on 25 November 2026 (hosted Supabase, PostgreSQL 17.12, and Cloudflare Pages) was
+  checked by hand only: four migrations applied, 16 of 16 tables with row-level security, five
+  tables/views and one RPC refuse anonymous requests (401), sign-up closed, the site and its SPA
+  routes return 200 with the security headers, the sign-in page renders without console errors.
+  No signed-in workflow was exercised on the live site as part of that check.
 - `npm run gen:types` (needs a linked project).
 - No real phone or tablet; mobile layouts were tested as browser viewports (320×640, 375×812,
   812×375) plus 1280×800.
