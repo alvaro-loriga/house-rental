@@ -2,6 +2,7 @@ import { useState, type FormEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
 import { useApp } from '../../app/AppContext';
+import { ContactPickButton } from '../../components/forms';
 import { Empty, ErrorMessage, Field, FormActions, Modal, Money, Notice, PageHeader, PhoneLinks, QueryGate } from '../../components/ui';
 import { useAction, useGuests, useLocale } from '../../hooks/data';
 import * as api from '../../services/api';
@@ -40,6 +41,7 @@ export function GuestDialog({ guest, onClose }: { guest?: Guest; onClose: () => 
   return (
     <Modal title={guest ? t('guests.editTitle') : t('guests.newTitle')} onClose={onClose}>
       <form onSubmit={submit} className="stack" noValidate>
+        {guest ? null : <ContactPickButton onPick={(contact) => setForm({ ...form, ...contact })} />}
         <Field label={t('common.name')} error={submitted && !form.full_name.trim() ? t('validation.nameRequired') : null}>
           <input type="text" value={form.full_name} onChange={(e) => setForm({ ...form, full_name: e.target.value })} autoFocus />
         </Field>

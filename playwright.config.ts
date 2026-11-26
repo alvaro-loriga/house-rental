@@ -3,8 +3,8 @@ import { defineConfig } from '@playwright/test';
 // End-to-end tests run the real app against the local backend (scripts/local-backend.mjs):
 // a throwaway PostgreSQL with the real migrations plus the demo seed. Separate ports are used
 // so a running `npm run dev:local` is left alone.
-const API_PORT = 54421;
-const DB_PORT = 54422;
+const API_PORT = 44421;
+const DB_PORT = 44422;
 const WEB_PORT = 5273;
 
 export default defineConfig({

@@ -68,6 +68,9 @@
 
 - **Calendario**: toca un día para ver reserva, bloqueo, interesados y precios. Vista de año.
 - **Huéspedes**: un solo contacto por persona; busca por nombre, teléfono o correo.
+  En un móvil Android (Chrome), **Elegir de los contactos del teléfono** rellena nombre, teléfono y
+  correo desde la agenda; si esa persona ya está registrada, se selecciona la existente. La
+  aplicación solo recibe el contacto que eliges.
 - **Informes**: valor acordado, dinero cobrado, pendiente, vencido y ocupación por año.
 - **Ajustes**: idioma (ES / EN), viviendas, familiares con acceso, contraseña y cerrar sesión.
 
@@ -138,5 +141,8 @@
 
 - **Calendar**: tap a day to see booking, hold, prospects and prices. Year view available.
 - **Guests**: one contact per person; search by name, phone or email.
+  On an Android phone (Chrome), **Pick from phone contacts** fills in name, phone and email from
+  the address book; if that person is already registered, the existing guest is selected. The app
+  only receives the contact you choose.
 - **Reports**: agreed value, cash received, outstanding, overdue and occupancy per year.
 - **Settings**: language (ES / EN), properties, family members with access, password, sign out.

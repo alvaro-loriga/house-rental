@@ -3,7 +3,7 @@ import { startPostgres } from '../../scripts/pg-runtime.mjs';
 import { applyMigrations } from '../../scripts/db-setup.mjs';
 
 export default async function setup(project: TestProject) {
-  const server = await startPostgres({ port: 54331 });
+  const server = await startPostgres({ port: 44331 });
   await applyMigrations(server.connectionString);
   project.provide('databaseUrl', server.connectionString);
   return async () => {

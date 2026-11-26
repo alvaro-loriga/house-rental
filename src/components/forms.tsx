@@ -6,6 +6,7 @@ import type { Guest } from '../types/database';
 import { isISODate, nightsBetween, type ISODate } from '../utils/dates';
 import { formatMoney } from '../utils/format';
 import { parseMoney } from '../utils/money';
+import { contactPickerSupported, pickPhoneContact, type PickedContact } from '../utils/contacts';
 import { findPossibleDuplicates, matchesContact } from '../utils/phone';
 import { PRICING_TYPES, suggestTotal, type PricingType } from '../utils/pricing';
 import { Field, Notice } from './ui';
@@ -31,6 +32,30 @@ export async function resolveGuest(workspaceId: string, choice: GuestChoice): Pr
   return api.createGuest(workspaceId, { full_name: choice.full_name, phone: choice.phone, email: choice.email, notes: '' });
 }
 
+/** "Pick from phone contacts": rendered only where the browser offers a contact picker (Chrome on Android). */
+export function ContactPickButton({ onPick }: { onPick: (contact: PickedContact) => void }) {
+  const { t } = useTranslation();
+  const [failed, setFailed] = useState(false);
+  if (!contactPickerSupported()) return null;
+  const pick = async () => {
+    setFailed(false);
+    try {
+      const contact = await pickPhoneContact();
+      if (contact) onPick(contact);
+    } catch {
+      setFailed(true);
+    }
+  };
+  return (
+    <>
+      <button type="button" className="button" onClick={pick}>
+        {t('guests.fromContacts')}
+      </button>
+      {failed ? <Notice kind="error">{t('guests.contactPickFailed')}</Notice> : null}
+    </>
+  );
+}
+
 /** Pick a known contact (search by name, phone or e-mail) or type a new one. */
 export function GuestPicker({ value, onChange, error, exclude = [] }: { value: GuestChoice; onChange: (next: GuestChoice) => void; error?: string | null; exclude?: string[] }) {
   const { t } = useTranslation();
@@ -43,10 +68,21 @@ export function GuestPicker({ value, onChange, error, exclude = [] }: { value: G
   const matches = useMemo(() => available.filter((g) => matchesContact(g, query)), [available, query]);
   const duplicates = value.mode === 'new' && value.full_name.trim() ? findPossibleDuplicates(guests.data ?? [], value) : [];
   const set = (patch: Partial<GuestChoice>) => onChange({ ...value, ...patch });
+  const [alreadyRegistered, setAlreadyRegistered] = useState<string | null>(null);
+  // A contact from the phone: reuse the registered guest with the same phone or e-mail, else prefill a new one.
+  const applyPhoneContact = (contact: PickedContact) => {
+    const known = findPossibleDuplicates(available, { full_name: '', phone: contact.phone, email: contact.email })[0];
+    setAlreadyRegistered(known ? known.full_name : null);
+    setQuery('');
+    if (known) onChange({ ...value, mode: 'existing', guestId: known.id });
+    else onChange({ mode: 'new', guestId: '', ...contact });
+  };
 
   return (
     <fieldset className="fieldset">
       <legend>{t('common.guest')}</legend>
+      <ContactPickButton onPick={applyPhoneContact} />
+      {alreadyRegistered && value.mode === 'existing' ? <Notice kind="info">{t('guests.contactAlreadyRegistered', { name: alreadyRegistered })}</Notice> : null}
       <div className="segmented" role="radiogroup" aria-label={t('guests.pickMode')}>
         <label>
           <input type="radio" name="guest-mode" checked={value.mode === 'existing'} onChange={() => set({ mode: 'existing' })} />

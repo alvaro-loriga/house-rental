@@ -297,6 +297,35 @@ test('workflow D: cancel, keep the receipts, refund and void with an audit trail
   await expect(page.locator('.rtable tbody tr')).toHaveCount(2);
 });
 
+test('phone contacts: a picked contact prefills a new guest or selects the registered one', async ({ page }) => {
+  // Stand-in for the Android contact picker: hands back one contact per call.
+  await page.addInitScript(() => {
+    const queue = [
+      [{ name: ['Elena  Agenda'], tel: ['+34 611 222 333'], email: ['elena@example.test'] }],
+      [{ name: ['Carlos (móvil)'], tel: ['+34 600 000 002'], email: [] }],
+    ];
+    Object.defineProperty(navigator, 'contacts', { configurable: true, value: { select: async () => queue.shift() ?? [] } });
+  });
+  await signInAdmin(page);
+  await page.goto('/prospects');
+  await page.getByRole('button', { name: /Nuevo periodo/ }).click();
+  const pick = dialog(page).getByRole('button', { name: 'Elegir de los contactos del teléfono' });
+
+  await pick.click();
+  await expect(dialog(page).getByLabel('Nombre')).toHaveValue('Elena Agenda');
+  await expect(dialog(page).getByLabel(/Teléfono/)).toHaveValue('+34 611 222 333');
+  await expect(dialog(page).getByLabel(/Correo/)).toHaveValue('elena@example.test');
+
+  // Same phone as a registered guest (stored without the country code): reuse it, no second contact.
+  await pick.click();
+  await expect(dialog(page).getByText(/Carlos Prueba ya está registrado/)).toBeVisible();
+  await expect(dialog(page).getByLabel('Huésped registrado').locator('option:checked')).toContainText('Carlos Prueba');
+
+  // Cancelling the picker changes nothing.
+  await pick.click();
+  await expect(dialog(page).getByLabel('Huésped registrado').locator('option:checked')).toContainText('Carlos Prueba');
+});
+
 const CORE_ROUTES: [string, string, string][] = [
   ['/', 'Inicio', 'Dashboard'],
   ['/calendar', 'Calendario', 'Calendar'],

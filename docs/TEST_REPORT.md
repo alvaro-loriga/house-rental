@@ -6,9 +6,9 @@ Microsoft Edge via Playwright 1.65.
 | Check | Command | Result |
 |---|---|---|
 | TypeScript | `npm run typecheck` | no errors |
-| Unit tests | `npm test` | 35 passed, 0 failed (2 files) |
+| Unit tests | `npm test` | 41 passed, 0 failed (3 files) |
 | Database integration tests | `npm run test:db` | 32 passed, 0 failed (2 files) |
-| End-to-end tests | `npm run test:e2e` | 11 passed, 0 failed |
+| End-to-end tests | `npm run test:e2e` | 12 passed, 0 failed |
 | Production build | `npm run build` | succeeded (one chunk-size advisory: 736 kB JS, 209 kB gzipped) |
 | Local backend smoke check | `npm run smoke:local` | 18 of 18 checks ok |
 
@@ -26,6 +26,8 @@ Microsoft Edge via Playwright 1.65.
 - No real phone or tablet; mobile layouts were tested as browser viewports (320×640, 375×812,
   812×375) plus 1280×800.
 - Browsers other than Edge (Chromium).
+- The Android contact picker itself: tests use a stand-in for `navigator.contacts`; it was not
+  run on a real phone as part of the test suite.
 
 ## Acceptance criteria coverage
 

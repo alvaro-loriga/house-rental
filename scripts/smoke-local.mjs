@@ -2,7 +2,7 @@
 // Usage: start `npm run backend:local` in one terminal, then `node scripts/smoke-local.mjs`.
 import { createClient } from '@supabase/supabase-js';
 
-const url = `http://localhost:${process.env.LOCAL_API_PORT ?? 54321}`;
+const url = `http://localhost:${process.env.LOCAL_API_PORT ?? 44321}`;
 const password = process.env.LOCAL_DEV_PASSWORD ?? 'rental-demo';
 const client = () => createClient(url, 'local-anon-key', { auth: { persistSession: false, autoRefreshToken: false } });
 const check = (label, ok, extra = '') => {

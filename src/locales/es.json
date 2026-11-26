@@ -472,6 +472,9 @@
     }
   },
   "guests": {
+    "fromContacts": "Elegir de los contactos del teléfono",
+    "contactAlreadyRegistered": "{{name}} ya está registrado; se ha seleccionado el huésped existente.",
+    "contactPickFailed": "No se han podido abrir los contactos del teléfono. Escribe los datos a mano.",
     "newTitle": "Nuevo huésped",
     "editTitle": "Editar huésped",
     "pickMode": "Huésped existente o nuevo",

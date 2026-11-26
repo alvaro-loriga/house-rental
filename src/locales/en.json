@@ -472,6 +472,9 @@
     }
   },
   "guests": {
+    "fromContacts": "Pick from phone contacts",
+    "contactAlreadyRegistered": "{{name}} is already registered, so the existing guest was selected.",
+    "contactPickFailed": "The phone contacts could not be opened. Type the details instead.",
     "newTitle": "New guest",
     "editTitle": "Edit guest",
     "pickMode": "Existing or new guest",

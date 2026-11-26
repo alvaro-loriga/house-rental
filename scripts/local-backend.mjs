@@ -9,7 +9,7 @@
 // the caller's JWT claims, exactly as PostgREST does, so database security is exercised for real.
 // The database is created fresh on every start and deleted on exit.
 //
-//   node scripts/local-backend.mjs               backend only (http://localhost:54321)
+//   node scripts/local-backend.mjs               backend only (http://localhost:44321)
 //   node scripts/local-backend.mjs --with-vite   backend + Vite dev server wired to it
 //   node scripts/local-backend.mjs --no-seed     empty workspace instead of the demo data
 import { spawn } from 'node:child_process';
@@ -23,8 +23,8 @@ import { startPostgres } from './pg-runtime.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const args = new Set(process.argv.slice(2));
-const API_PORT = Number(process.env.LOCAL_API_PORT ?? 54321);
-const DB_PORT = Number(process.env.LOCAL_DB_PORT ?? 54322);
+const API_PORT = Number(process.env.LOCAL_API_PORT ?? 44321);
+const DB_PORT = Number(process.env.LOCAL_DB_PORT ?? 44322);
 const JWT_SECRET = crypto.randomBytes(32).toString('hex');
 // Demo accounts for the throwaway database. Override the password with LOCAL_DEV_PASSWORD.
 const DEV_PASSWORD = process.env.LOCAL_DEV_PASSWORD ?? 'rental-demo';

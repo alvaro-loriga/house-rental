@@ -20,7 +20,7 @@ npm run dev:local
 ```
 
 Open http://localhost:5173. This starts a **throwaway** PostgreSQL (the real migrations, RLS and
-RPCs), a small Supabase-compatible API on port 54321 and Vite. The database is recreated with
+RPCs), a small Supabase-compatible API on port 44321 and Vite. The database is recreated with
 fictitious demo data on every start; nothing you enter is kept.
 
 Demo accounts: `admin@example.test`, `member@example.test` and `outsider@example.test` (the last
